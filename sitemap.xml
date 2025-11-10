@@ -1,0 +1,6 @@
+﻿<sitemap xmlns:xo="http://panax.io/xover" xo:id="sitemap_434e01e4_1a36_42d2_ba21_557cc26aa1a4">
+	<item id="1" title="Interapas">
+		<!--<item id="2" title="$$ de ventas x tipo de pago" target="#ventas_tipo_pago"/>-->
+		<item id="3" title="Estatus de contratos" target="#reporte_interapas"/>
+	</item>
+</sitemap>

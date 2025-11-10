@@ -1,0 +1,172 @@
+xo.spaces["expanded"] = "http://panax.io/state/expanded";
+xo.spaces["visible"] = "http://panax.io/state/visible";
+xo.spaces["hidden"] = "http://panax.io/state/hidden";
+xo.listener.on('xover-initialized', function ({ progress_renders }) {
+    if ('#loading' in xover.manifest.sources) {
+        progress_renders.concat(xover.sources['#loading'].render());
+    }
+})
+
+xover.listener.on('xover-initialized', function () {
+    window.setInterval(function () {
+        xover.session.checkStatus();
+    }, 900000);
+})
+
+xo.listener.on('change::model/*/*/@state:checked[.="true"]', function ({ element, stylesheet, srcElement, value, old }) {
+    let id = element.getAttributeNode("id") || element.getAttributeNode("mes")
+    if (!(srcElement instanceof SVGElement)) {
+        if (value) {
+            element.select(`../${element.nodeName}[not(@${id.nodeName}="${id}")]/@state:checked`).remove()
+        }
+    }
+})
+
+xo.listener.on(['append::dialog[open]'], function () {
+    this.close()
+    this.showModal()
+})
+
+xo.listener.on([`beforeTransform::model[*/@filter:*]`, `beforeTransform?stylesheet.href=auxiliar_cuentas.xslt`], function () {
+    for (let attr of this.select(`//@filter:*`)) {
+        this.select(`//movimientos/row[not(@xsi:type="mock")][${attr.value.split("|").map(value => `@${attr.localName}!="${value}"`).join(" and ")}]`).forEach(el => el.remove())
+    }
+})
+
+xo.listener.on("fetch::xo:response", function () {
+    let new_node = this.selectFirst('xo:response//model');
+    new_node instanceof Element && this.documentElement.replaceWith(new_node)
+})
+
+xo.listener.on('beforeRender::html:dialog', function ({ element }) {
+    if ([...document.querySelectorAll('dialog')].find(dialog => dialog.isEqualNode(element))) {
+        event.preventDefault()
+    }
+})
+
+xo.listener.skipSelector(".dropdown-menu.show")
+
+mostrarGrafica = function () {
+    let chart = document.getElementById('myChart');
+    let offcanvas = chart.closest('.offcanvas');
+    offcanvas && bootstrap.Offcanvas.getOrCreateInstance(offcanvas).show()
+}
+
+createCommand = function (params = {}) {
+    return Object.entries(params).filter(entry => entry[0][0] != '^').map(([field, value], ix) => field == 'command' ? `EXEC ${value} ` : `${(ix > 1 ? ', ' : '') + field}='${value}'`).join('')
+}
+
+xo.listener.on('mutate::html', function ({ mutations }) {
+    if (mutations.size > 10) {
+        mutations.clear();
+    }
+})
+
+xover.listener.on(`beforeFetch?request`, function ({ request, settings }) {
+    let session_id = request.headers.get("x-session-id") || xo.session[`${request.url.host}:id`];
+    session_id && request.headers.set("x-session-id", session_id);
+})
+
+xo.listener.on(["fetch?href=^server/::*", "fetch?host=^server.panax.io::*", "fetch?host=*.ngrok*"], function ({ response, document, url }) {
+    if (!(document && document.nodeType === Node.DOCUMENT_NODE)) return;
+    for (let stylesheet of document.stylesheets || []) {
+        let href = stylesheet.href;
+        if (!href) continue;
+        stylesheet.href = href.replace(/^([^/.])/, '/$1')
+    }
+    // backwards compatibility
+    for (let control of document.select(`//*[not(@navbar:control)]/@navbar:filter`)) {
+        control.parentNode.removeAttribute("navbar:position")
+        control.remove()
+    }
+    for (let row of document.select(`//row[@state:page]`)) {
+        let url = document.url.clone();
+        url.searchParams.set("@page_index", row.getAttributeNodeNS("http://panax.io/state", "page"));
+        url.fetch().then(document => {
+            row.replaceWith(...document.select(`//${row.parentNode.nodeName}/*`))
+        })
+    }
+})
+
+xo.listener.on('xover-initializing', function ({ progress_renders }) {
+    if ('#loading' in xover.manifest.sources) {
+        progress_renders.concat(xover.sources['#loading'].render());
+    }
+})
+
+xover.listener.on('Response:reject?status=401&bodyType=html', function ({ }) {
+    return { "message": "" };
+})
+
+function updateTunnel() {
+    try {
+        let gist = xover.session.gist;
+        if (!gist) return;
+        fetch(gist)
+            .then(res => res.json())
+            .then(gist => xover.session.server = gist["tunnel"])
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+Object.defineProperty(xover.session, 'login', {
+  value: async function (username, password, ...args) {
+    if ('login' in xover.server) {
+      try {
+        username = username instanceof HTMLElement ? username.value : username;
+        password = password instanceof HTMLElement ? password.value : password;
+        xover.session.user_login = username;
+        xover.session.status = 'authorizing';
+        let authorization = `Basic ${btoa(username + ':' + password)}`;
+        await xover.server.login(...args, new Headers({ authorization }), (return_value, request) => { xover.session[`${request.url.host}:id`] = return_value.id });
+        xover.session.status = 'authorized';
+        xover.session.id_token = authorization;
+        if (xover.site.seed === '#login') {
+          window.location = '#'
+        } else {
+          xover.stores.active.render();
+        }
+      } catch (e) {
+        xover.session.status = 'unauthorized';
+        return Promise.reject(e);
+      }
+    } else {
+      xover.session.status = 'authorized';
+      window.dispatchEvent(new xover.listener.Event('login', {}, this));
+      return false;
+    }
+  }, writable: true, configurable: true
+})
+
+function filterSelection() {
+  for (let selection of this.select(`//@state:selected`).filter(attr => attr.value)) {
+    let node = selection.parentNode;
+    let attr = node.getAttributeNS("http://widgets.panaxbi.com/navbar", "text") || 'desc'
+    let rows = node.select(`row[not(@id="${selection.value}")]`)
+    rows.remove();
+  }
+}
+xo.listener.on(`beforeTransform?stylesheet.href="reporte_interapas.xslt"::*[descendant-or-self::*[@navbar:*][@state:selected]]`, filterSelection)
+
+xo.listener.on(`fetch::#reporte_interapas`, function ({ document }) {
+  document.select(`//@adeudo_actual[starts-with(.,"$")]`).forEach(attr => attr.value = attr.value.replace(/[\$,]/g, ''))
+})
+
+xover.listener.on([`change::*[@navbar:*]/@state:selected`], async function ({ document, value }) {
+   let url = document.url;
+   if (!url) return;
+   for (let field of [...document.querySelectorAll(`form fieldset > [name]`)]) {
+      let field_name = field.scope.closest('*').localName;
+      if (!field.value || field.closest(`.mutually-exclusive`) && field.matches(`[type=hidden]`)) {
+         url.searchParams.delete(`@${field_name}`)
+      } else {
+         url.searchParams.set(`@${field_name}`, field.value)
+      }
+   }
+   if (instanceOf.call(this, Attr)) {
+      let param_name = this.parentNode.nodeName;
+      url.searchParams.set(`@${param_name}`, value || null);
+      document.fetch()
+   }
+})
