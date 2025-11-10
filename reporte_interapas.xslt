@@ -932,12 +932,12 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
               <td height="20" class="xl1517904" style="height:15.0pt"></td>
               <td colspan="2" class="xl6617904" dir="LTR" width="93" style="width:70pt">Total:</td>
               <td colspan="7" class="xl7017904" dir="LTR" width="993" style="border-left:none;&#10;  width:745pt">
-                <xsl:value-of select="//model/row[@meses_adeudo&gt;0]"/>
+                <xsl:value-of select="sum(@meses_adeudo)"/>
               </td>
               <td colspan="2" class="xl7117904" dir="LTR" width="123" style="border-left:none;&#10;  width:93pt">
                 <xsl:call-template name="format">
                   <xsl:with-param name="value">
-                    <xsl:value-of select="sum(//model/row/@adeudo_actual)"/>
+                    <xsl:value-of select="sum(//@adeudo_actual)"/>
                   </xsl:with-param>
                 </xsl:call-template>
               </td>
@@ -990,10 +990,11 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
       </div>
     </main>
   </xsl:template>
+	 
   <xsl:template match="@adeudo_actual">
     <xsl:call-template name="format">
       <xsl:with-param name="value">
-        <xsl:value-of select="sum(//model/row/@adeudo_actual)"/>
+        <xsl:value-of select="."/>
       </xsl:with-param>
     </xsl:call-template>
   </xsl:template>

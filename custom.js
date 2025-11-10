@@ -170,3 +170,9 @@ xover.listener.on([`change::*[@navbar:*]/@state:selected`], async function ({ do
       document.fetch()
    }
 })
+
+xo.listener.on('render', function ({ document }) {
+   for (let img of document.querySelectorAll('img')) {
+      img.src = img.src.replace('http://habi.panax.io/', '')
+   }
+})
