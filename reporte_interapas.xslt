@@ -277,7 +277,7 @@ tags will be replaced.-->
 
       <div id="reporte_interapas" align="center" x:publishsource="Excel">
 
-        <table border="0" cellpadding="0" cellspacing="0" width="1332" style="border-collapse:&#10; collapse;table-layout:fixed;width:1000pt">
+        <table border="0" cellpadding="0" cellspacing="0" width="1332" style="border-collapse:&#10; collapse;">
           <!--<colgroup>
             <col width="12" style="mso-width-source:userset;mso-width-alt:438;width:9pt" />
             <col width="15" style="mso-width-source:userset;mso-width-alt:548;width:11pt" />
@@ -849,11 +849,13 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
               <td class="xl1517904"></td>
               <td class="xl1517904"></td>
               <td class="xl1517904"></td>
+              <td class="xl1517904"></td>
             </tr>
             <tr height="5" style="mso-height-source:userset;height:4.35pt">
               <td height="5" class="xl1517904" style="height:4.35pt"></td>
-              <td colspan="13" class="xl7317904" dir="LTR" width="1300" style="width:976pt"> </td>
-              <td class="xl1517904"></td>
+              <td colspan="14" class="xl7317904" dir="LTR" width="1300" style="width:976pt"> </td>
+							 <td class="xl1517904"></td>
+							 <td class="xl1517904"></td>
               <td class="xl1517904"></td>
             </tr>
             <tr height="6" style="mso-height-source:userset;height:5.1pt">
@@ -871,7 +873,8 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
               <td class="xl1517904"></td>
               <td class="xl1517904"></td>
               <td class="xl1517904"></td>
-              <td class="xl1517904"></td>
+							 <td class="xl1517904"></td>
+							 <td class="xl1517904"></td>
               <td class="xl1517904"></td>
             </tr>
             <tr height="44" style="height:33.0pt" class="freeze">
@@ -890,7 +893,8 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
               </td>
               <td colspan="2" class="xl6317904" dir="LTR" width="123" style="border-left:none;&#10;  width:93pt">ADEUDO ACTUAL</td>
               <td class="xl1517904"></td>
-              <td class="xl6317904" dir="LTR" width="91" style="width:68pt">ESTATUS</td>
+							 <td class="xl6317904" dir="LTR" width="91" style="width:68pt">ESTATUS</td>
+							 <td class="xl6317904" dir="LTR" width="91" style="width:68pt">FACTURA</td>
               <td class="xl1517904"></td>
               <td class="xl1517904"></td>
             </tr>
@@ -921,9 +925,14 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
                   <xsl:apply-templates select="@adeudo_actual"/>
                 </td>
                 <td class="xl1517904"></td>
-                <td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt">
-                  <xsl:apply-templates select="@estatus"/>
-                </td>
+								 <td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt">
+										<xsl:apply-templates select="@estatus"/>
+								 </td>
+								 <td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt; whitespace-nowrap">
+										<xsl:apply-templates mode="concat" select="//facturas/row[@NumeroContrato=number(current()/@cuenta)]/@Folio">
+											 <xsl:with-param name="separator"/>
+										</xsl:apply-templates>
+								 </td>
                 <td class="xl1517904"></td>
                 <td class="xl1517904"></td>
               </tr>

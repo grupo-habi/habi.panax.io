@@ -21,6 +21,7 @@
 			"#login": null,
 			"#loading": null,
 			"#settings": "settings.xml",
+			"px-to-excel": "widgets/excel_button.xhtml",
 			"px-daterange": "widgets/daterange.xhtml",
 			"px-combobox": "widgets/combobox.xhtml",
 			"px-printer": "widgets/printer.xhtml",
