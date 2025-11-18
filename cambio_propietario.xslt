@@ -12,12 +12,12 @@ xmlns:v="urn:schemas-microsoft-com:office:excel"
 xmlns:o="urn:schemas-microsoft-com:office:word"
 xmlns:xo="http://panax.io/xover"
 >
-  <xsl:import href="keys.xslt"/>
-  <xsl:import href="common.xslt"/>
-  <xsl:import href="functions.xslt"/>
+   <xsl:import href="keys.xslt"/>
+   <xsl:import href="common.xslt"/>
+   <xsl:import href="functions.xslt"/>
 
-  <xsl:param name="state:editable"></xsl:param>
-  <xsl:template match="/">
+   <xsl:param name="state:editable"></xsl:param>
+	 <xsl:template match="/">
 
     <main>
       <style><![CDATA[
@@ -548,13 +548,5 @@ tags will be replaced.-->
 
       </div>
     </main>
-  </xsl:template>
-	 
-  <xsl:template match="@adeudo_actual">
-    <xsl:call-template name="format">
-      <xsl:with-param name="value">
-        <xsl:value-of select="."/>
-      </xsl:with-param>
-    </xsl:call-template>
   </xsl:template>
 </xsl:stylesheet>

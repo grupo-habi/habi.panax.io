@@ -1,10 +1,11 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:xo="http://panax.io/xover"
-  xmlns:data="http://panax.io/data"
-  xmlns:state="http://panax.io/state"
-  xmlns:env="http://panax.io/state/environment"
-  exclude-result-prefixes="xo xsl"
+xmlns:xo="http://panax.io/xover"
+xmlns:session="http://panax.io/session"
+xmlns:data="http://panax.io/data"
+xmlns:state="http://panax.io/state"
+xmlns:env="http://panax.io/state/environment"
+exclude-result-prefixes="xo xsl"
 >
 	<xsl:import href="functions.xslt"/>
 
@@ -124,4 +125,19 @@ xmlns="http://www.w3.org/1999/xhtml"
 			<xsl:value-of select="substring(.,7,2)"/>
 		</xsl:if>
 	</xsl:template>
+
+	 <xsl:param name="session:server"></xsl:param>
+	 <xsl:template match="@Folio">
+			<a href="{$session:server}/{../@UbicacionPDF}" target="_blank">
+				 <xsl:value-of select="."/>
+			</a>
+	 </xsl:template>
+
+	 <xsl:template match="@adeudo_actual">
+			<xsl:call-template name="format">
+				 <xsl:with-param name="value">
+						<xsl:value-of select="."/>
+				 </xsl:with-param>
+			</xsl:call-template>
+	 </xsl:template>
 </xsl:stylesheet>
