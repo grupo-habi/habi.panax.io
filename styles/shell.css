@@ -35,9 +35,9 @@ body {
 }
 
 table tfoot {
-    position: sticky;
-    z-index: 910;
-    bottom: calc(var(--footer-height, 15px)* -1);
+   position: sticky;
+   z-index: 910;
+   bottom: calc(var(--footer-height) - 35px);
 }
 
 *[onclick]:not([disabled]) {
