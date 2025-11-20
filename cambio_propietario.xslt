@@ -477,11 +477,11 @@ tags will be replaced.-->
 								 <td class="xl6417904" dir="LTR" width="305" style="border-top:none;border-left:&#10;  none;width:229pt">
 										<xsl:apply-templates select="@titular"/>
 								 </td>
-							 <td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt">
+							 <td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt;text-align:center;">
 									<xsl:apply-templates select="@adeudo_actual"/>
 							 </td>
-							 <td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt">
-									<xsl:apply-templates mode="concat" select="//facturas/row[@NumeroContrato=number(current()/@cuenta)]/@Folio">
+							 <td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt;text-align:center;">
+									<xsl:apply-templates mode="concat" select="//facturas/row[@NumeroContrato=number(current()/@cuenta)][@Tipo='CambioNombre']/@Folio">
 										 <xsl:with-param name="separator"/>
 									</xsl:apply-templates>
 							 </td>
@@ -490,17 +490,16 @@ tags will be replaced.-->
             <tr height="20" style="height:15.0pt">
               <td height="20" class="xl1517904" style="height:15.0pt"></td>
               <td colspan="2" class="xl6617904" dir="LTR" width="93" style="width:70pt">Total:</td>
-              <td colspan="7" class="xl7017904" dir="LTR" width="993" style="border-left:none;&#10;  width:745pt">
+              <td colspan="5" class="xl7017904" dir="LTR" width="993" style="border-left:none;&#10;  width:745pt">
                 <xsl:value-of select="sum(@meses_adeudo)"/>
               </td>
-              <td colspan="2" class="xl7117904" dir="LTR" width="123" style="border-left:none;&#10;  width:93pt">
+              <td class="xl7117904" dir="LTR" width="123" style="border-left:none;text-align:center;">
                 <xsl:call-template name="format">
                   <xsl:with-param name="value">
                     <xsl:value-of select="sum(//@adeudo_actual)"/>
                   </xsl:with-param>
                 </xsl:call-template>
               </td>
-              <td class="xl1517904"></td>
               <td class="xl6617904" dir="LTR" width="91" style="border-top:none;width:68pt"> </td>
               <td class="xl1517904"></td>
               <td class="xl1517904"></td>

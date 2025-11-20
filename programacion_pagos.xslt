@@ -517,7 +517,6 @@ tags will be replaced.-->
 										</xsl:apply-templates>
 								 </td>
 								 <td class="xl1517904"></td>
-                <td class="xl1517904"></td>
               </tr>
             </xsl:for-each>
             <tr height="20" style="height:15.0pt">
@@ -526,16 +525,14 @@ tags will be replaced.-->
               <td colspan="7" class="xl7017904" dir="LTR" width="993" style="border-left:none;&#10;  width:745pt">
                 <xsl:value-of select="sum(@meses_adeudo)"/>
               </td>
-              <td colspan="2" class="xl7117904" dir="LTR" width="123" style="border-left:none;&#10;  width:93pt">
+              <td class="xl7117904" dir="LTR" width="123" style="border-left:none;&#10;  width:93pt">
                 <xsl:call-template name="format">
                   <xsl:with-param name="value">
                     <xsl:value-of select="sum(//@adeudo_actual)"/>
                   </xsl:with-param>
                 </xsl:call-template>
               </td>
-              <td class="xl1517904"></td>
-              <td class="xl6617904" dir="LTR" width="91" style="border-top:none;width:68pt"> </td>
-              <td class="xl1517904"></td>
+              <td colspan="4" class="xl7017904"></td>
               <td class="xl1517904"></td>
             </tr>
             <tr height="19" style="mso-height-source:userset;height:14.25pt">

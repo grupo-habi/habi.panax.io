@@ -768,10 +768,8 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
               <td class="xl1517904"></td>
             </tr>
             <tr height="76" style="mso-height-source:userset;height:57.6pt">
-              <td height="76" class="xl1517904" style="height:57.6pt"></td>
-              <td class="xl1517904"></td>
-              <td class="xl1517904"></td>
-              <td colspan="7" class="xl7217904" dir="LTR" width="908" style="width:682pt">
+              <td height="76" class="xl1517904" style="height:57.6pt" colspan="6"></td>
+              <td colspan="9" class="xl7217904" dir="LTR" width="908" style="width:682pt">
                 <br />
                 <font class="font517904">
                   ORGANISMO INTERMUNICIPAL METROPOLITANO DE AGUA
@@ -853,7 +851,7 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
             </tr>
             <tr height="5" style="mso-height-source:userset;height:4.35pt">
               <td height="5" class="xl1517904" style="height:4.35pt"></td>
-              <td colspan="14" class="xl7317904" dir="LTR" width="1300" style="width:976pt"> </td>
+              <td colspan="15" class="xl7317904" dir="LTR" width="1300" style="width:976pt"> </td>
 							 <td class="xl1517904"></td>
 							 <td class="xl1517904"></td>
               <td class="xl1517904"></td>
@@ -895,6 +893,7 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
               <td class="xl1517904"></td>
 							 <td class="xl6317904" dir="LTR" width="91" style="width:68pt">ESTATUS</td>
 							 <td class="xl6317904" dir="LTR" width="91" style="width:68pt">FACTURA</td>
+							 <td class="xl6317904" dir="LTR" width="91" style="width:68pt">CAMBIO DE NOMBRE</td>
               <td class="xl1517904"></td>
               <td class="xl1517904"></td>
             </tr>
@@ -929,7 +928,12 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
 										<xsl:apply-templates select="@estatus"/>
 								 </td>
 								 <td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt; whitespace-nowrap">
-										<xsl:apply-templates mode="concat" select="//facturas/row[@NumeroContrato=number(current()/@cuenta)]/@Folio">
+										<xsl:apply-templates mode="concat" select="//facturas/row[@NumeroContrato=number(current()/@cuenta)][not(@Tipo='CambioNombre')]/@Folio">
+											 <xsl:with-param name="separator"/>
+										</xsl:apply-templates>
+								 </td>
+								 <td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt; whitespace-nowrap">
+										<xsl:apply-templates mode="concat" select="//facturas/row[@NumeroContrato=number(current()/@cuenta)][@Tipo='CambioNombre']/@Folio">
 											 <xsl:with-param name="separator"/>
 										</xsl:apply-templates>
 								 </td>
@@ -951,7 +955,7 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
                 </xsl:call-template>
               </td>
               <td class="xl1517904"></td>
-              <td class="xl6617904" dir="LTR" width="91" style="border-top:none;width:68pt"> </td>
+              <td class="xl6617904" colspan="3" dir="LTR" width="91" style="border-top:none;width:68pt"> </td>
               <td class="xl1517904"></td>
               <td class="xl1517904"></td>
             </tr>
