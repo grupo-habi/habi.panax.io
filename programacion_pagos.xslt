@@ -523,14 +523,14 @@ tags will be replaced.-->
 									<tfoot>
 										 <tr height="20" style="height:15.0pt">
 												<td height="20" class="xl1517904" style="height:15.0pt"></td>
-												<td colspan="2" class="xl6617904" dir="LTR" width="93" style="width:70pt">Total:</td>
+												<td colspan="2" class="xl6617904" dir="LTR" width="93" style="width:70pt; font-weigth:bolder;">Total <xsl:value-of select="count(//contratos/row)"/>:</td>
 												<td colspan="7" class="xl7017904" dir="LTR" width="993" style="border-left:none;&#10;  width:745pt">
-													 <xsl:value-of select="sum(@meses_adeudo)"/>
+													 <xsl:value-of select="sum(//contratos/row/@meses_adeudo)"/>
 												</td>
 												<td class="xl7117904" dir="LTR" width="123" style="border-left:none;&#10;  width:93pt">
 													 <xsl:call-template name="format">
 															<xsl:with-param name="value">
-																 <xsl:value-of select="sum(//@adeudo_actual)"/>
+																 <xsl:value-of select="sum(//contratos/row/@adeudo_actual)"/>
 															</xsl:with-param>
 													 </xsl:call-template>
 												</td>

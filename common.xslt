@@ -128,7 +128,7 @@ exclude-result-prefixes="xo xsl"
 
 	 <xsl:param name="session:server"></xsl:param>
 	 <xsl:template match="@Folio">
-			<a href="{$session:server}/{../@UbicacionPDF}" target="_blank">
+			<a href="{$session:server}/{../@Ubicacion}" target="_blank">
 				 <xsl:value-of select="."/>
 			</a>
 	 </xsl:template>
