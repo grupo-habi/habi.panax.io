@@ -100,13 +100,17 @@ xover.listener.on('Response:reject?status=401&bodyType=html', function ({ }) {
 	 return { "message": "" };
 })
 
-function updateTunnel() {
+async function updateTunnel() {
 	 try {
-			let gist = xover.session.gist;
+			let gist = xover.manifest.session.gist;
 			if (!gist) return;
-			fetch(gist)
-				 .then(res => res.json())
-				 .then(gist => xover.session.server = gist["tunnel"])
+			await fetch(gist)
+				 .then(res => res.text())
+				 .then(gist => {
+						gist = xover.json.tryParse(gist);
+						xover.session.server = gist["tunnel"] || gist;
+				 })
+			if (!xover.session.server) xover.session.server = prompt("Proporcione la dirección del túnel")
 	 } catch (e) {
 			console.error(e)
 	 }
