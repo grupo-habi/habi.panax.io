@@ -513,7 +513,7 @@ tags will be replaced.-->
 													 <xsl:apply-templates select="@proyecto"/>
 												</td>
 												<td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt">
-													 <xsl:apply-templates mode="concat" select="//facturas/row[@NumeroContrato=number(current()/@cuenta)]/@Folio">
+													 <xsl:apply-templates mode="concat" select="//facturas/row[@cuenta=current()/@id]/@Folio">
 															<xsl:with-param name="separator"/>
 													 </xsl:apply-templates>
 												</td>

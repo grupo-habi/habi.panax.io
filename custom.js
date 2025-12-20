@@ -192,3 +192,12 @@ xo.listener.on('render', function ({ document }) {
 			img.src = img.src.replace('http://habi.panax.io/', '')
 	 }
 })
+
+xo.listener.on(['beforeFetch::?FROM=^Interapas.#server:request'], async function ({ request }) {
+    let trackers = request.trackers;
+    for (let tracker of trackers) {
+        tracker.remove()
+    }
+    trackers.clear();
+    trackers.add(document.body.appendChild(document.createElement("px-loader")));
+})

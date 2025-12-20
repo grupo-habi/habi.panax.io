@@ -929,12 +929,12 @@ LnJlbHNQSwUGAAAAAAYABgCFAQAAq1QAAAAA
 													 <xsl:apply-templates select="@estatus"/>
 												</td>
 												<td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt; whitespace-nowrap">
-													 <xsl:apply-templates mode="concat" select="//facturas/row[@NumeroContrato=number(current()/@cuenta)][not(@Tipo='CambioNombre')]/@Folio">
+													 <xsl:apply-templates mode="concat" select="//facturas/row[@cuenta=current()/@id][not(@tipo='cambio_nombre')]/@Folio">
 															<xsl:with-param name="separator"/>
 													 </xsl:apply-templates>
 												</td>
 												<td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt; whitespace-nowrap">
-													 <xsl:apply-templates mode="concat" select="//facturas/row[@NumeroContrato=number(current()/@cuenta)][@Tipo='CambioNombre']/@Folio">
+													 <xsl:apply-templates mode="concat" select="//facturas/row[@cuenta=current()/@id][@tipo='cambio_nombre']/@Folio">
 															<xsl:with-param name="separator"/>
 													 </xsl:apply-templates>
 												</td>
