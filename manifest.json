@@ -1,77 +1,80 @@
 {
-	 "server": {
-			"request": "${xover.session.server}/request.asp",
-			"login": "POST ${xover.session.server}/login.asp",
-			"logout": "${xover.session.server}/logout.asp",
-			"applyPermissions": {
-				 "POST server:request": { "FROM": "[$Security].[applyPermissions]" }
+	"server": {
+		"request": "${xover.session.server}/request.asp",
+		"login": "POST ${xover.session.server}/login.asp",
+		"logout": "${xover.session.server}/logout.asp",
+		"applyPermissions": {
+			"POST server:request": { "FROM": "[$Security].[applyPermissions]" }
+		},
+		"crearRevision": {
+			"POST server:request": { "FROM": "Interapas.crearRevision" }
+		}
+	},
+	"session": {
+		"gist": "https://gist.githubusercontent.com/uriel-online/7595dfb78e172580281d26c1b48a58c9/raw/habi.json"
+	},
+	"sources": {
+		"^#([^?]+)(\\?.*)?": {
+			"server:request": {
+				"FROM": "PanaxBI.$1"
 			}
-	 },
-	 "session": {
-			"gist": "https://gist.githubusercontent.com/uriel-online/7595dfb78e172580281d26c1b48a58c9/raw/habi.json"
-	 },
-	 "sources": {
-			"^#([^?]+)(\\?.*)?": {
-				 "server:request": {
-						"FROM": "PanaxBI.$1"
-				 }
-			},
-			"#": "#shell",
-			"#shell": null,
-			"#login": null,
-			"#loading": null,
-			"#settings": "settings.xml",
-			"px-to-excel": "widgets/excel_button.xhtml",
-			"px-daterange": "widgets/daterange.xhtml",
-			"px-combobox": "widgets/combobox.xhtml",
-			"px-printer": "widgets/printer.xhtml",
-			"px-loader": "widgets/loader.xhtml",
-			"google-chart": "widgets/google-chart.xhtml",
-			"#menu": "menus.xml",
-			"#globalization": [ "assets/globalization/headerText.${xo.session.locale.split('-').shift()}.resx", "assets/globalization/headerText.resx" ],
-			"#sitemap": "sitemap.xml",
-			"#reporte_interapas": {
-				 "server:request": {
-						"FROM": "Interapas.reporte_interapas"
-				 }
+		},
+		"#": "#shell",
+		"#shell": null,
+		"#login": null,
+		"#loading": null,
+		"#settings": "settings.xml",
+		"px-to-excel": "widgets/excel_button.xhtml",
+		"px-daterange": "widgets/daterange.xhtml",
+		"px-combobox": "widgets/combobox.xhtml",
+		"px-printer": "widgets/printer.xhtml",
+		"px-loader": "widgets/loader.xhtml",
+		"google-chart": "widgets/google-chart.xhtml",
+		"#menu": "menus.xml",
+		"#globalization": [ "assets/globalization/headerText.${xo.session.locale.split('-').shift()}.resx", "assets/globalization/headerText.resx" ],
+		"#sitemap": "sitemap.xml",
+		"#reporte_interapas": {
+			"server:request": {
+				"FROM": "Interapas.reporte_interapas"
 			}
-	 },
-	 "start": [
-			"loading.xslt",
-			"px-combobox",
-			"px-daterange",
-			"px-printer",
-			"px-to-excel",
-			"px-loader",
-			{ "updateTunnel": [] }
-	 ],
-	 "settings": {
-			"^#.*": {
-				 "headers": {
-						"Cache-Control": "max-age=0",
-						"x-debugging": "true",
-						"expiry": 1
-				 }
-			},
-			"#reporte_interapas": {
-				 "target": "@#shell main",
-				 "headers": {
-						"x-root-node": "model",
-						"x-row-node": "row"
-				 }
-			},
-			"~.asp": {
-				 "headers": {
-						"authorization": "${xover.session.id_token}"
-				 }
-			},
-			"server:applyPermissions": {
-				 "headers": {
-						"x-payload-parameter-name": "@input"
-				 }
-			},
-			"#shell": {
-				 "hash": ""
+		}
+	},
+	"start": [
+		"loading.xslt",
+		"px-combobox",
+		"px-daterange",
+		"px-printer",
+		"px-to-excel",
+		"px-loader",
+		{ "updateTunnel": [] }
+	],
+	"settings": {
+		"^#.*": {
+			"headers": {
+				"Cache-Control": "max-age=0",
+				"x-debugging": "true",
+				"expiry": 1
 			}
-	 }
+		},
+		"#reporte_interapas": {
+			"target": "@#shell main",
+			"headers": {
+				"x-root-node": "model",
+				"x-row-node": "row"
+			}
+		},
+		"~.asp": {
+			"headers": {
+				"authorization": "${xover.session.id_token}"
+			}
+		},
+		"server:applyPermissions": {
+			"headers": {
+				"x-payload-parameter-name": "@input"
+			}
+		},
+		"#shell": {
+			"hash": ""
+		}
+	}
 }

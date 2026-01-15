@@ -8,6 +8,8 @@ xmlns:state="http://panax.io/state"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:initial="http://panax.io/state/initial"
 xmlns:data="http://panax.io/source"
+xmlns:env="http://panax.io/state/environment"
+xmlns:debug="http://panax.io/debug"
 exclude-result-prefixes="#default xsl px xo xsi"
 >
 	<xsl:output method="xml"
@@ -20,7 +22,6 @@ exclude-result-prefixes="#default xsl px xo xsi"
 
 	<xsl:template match="/">
 		<ul id="shell_buttons" class="nav col-md justify-content-end list-unstyled d-flex">
-      <xo-listener node="//security/access"/>
       <xsl:apply-templates/>
 		</ul>
 	</xsl:template>
@@ -44,11 +45,9 @@ exclude-result-prefixes="#default xsl px xo xsi"
 	</xsl:template>
 
 	<xsl:template match="model">
-		<xsl:if test="$site:seed='#estado_resultados_mensual'">
-			<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Ver gráfica</button>
-		</xsl:if>
-		<xsl:if test="//@state:dirty">
-			<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onclick="submit(scope)" xo-scope="{ancestor-or-self::*[1]/@xo:id}">Guardar</button>
+		<xsl:if test="$site:seed='#reporte_interapas' and //archivo/@state:selected">
+			<button class="btn btn-success" onclick="new_revision()">Crear revisión</button>
+			<!--<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Ver gráfica</button>-->
 		</xsl:if>
 	</xsl:template>
 

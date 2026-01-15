@@ -37,7 +37,7 @@ body {
 table tfoot {
 	position: sticky;
 	z-index: 910;
-	bottom: calc(var(--footer-height) - 35px);
+	bottom: 10px;
 }
 
 @media print {
@@ -286,7 +286,7 @@ h3, h4 {
 	--margin-top-sitemap: 0px;
 	--padding-top-sitemap: 65px;
 	--margin-bottom: 71px;
-	--footer-height: 34px;
+	--footer-height: 74px;
 	--bg-shell-footer: #fff;
 	--menu-toggler: white;
 	--nav-height: 65px;
