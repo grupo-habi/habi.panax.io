@@ -37,7 +37,7 @@ body {
 table tfoot {
 	position: sticky;
 	z-index: 910;
-	bottom: 10px;
+	bottom: 0;
 }
 
 @media print {
@@ -307,6 +307,10 @@ header h1 {
 	z-index: 1002;
 	width: 100vw;
 	/*background-color: white;*/
+}
+
+legend:has(select) {
+	margin-bottom: .2rem;
 }
 
 aside {
