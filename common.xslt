@@ -128,7 +128,8 @@ exclude-result-prefixes="xo xsl"
 
 	 <xsl:param name="session:server"></xsl:param>
 	 <xsl:template match="@Folio">
-			<a href="{$session:server}/{../@Ubicacion}" target="_blank">
+		 <xsl:variable name="mask">$#,##0.##;-$#,##0.##</xsl:variable>
+			<a href="{$session:server}/{../@Ubicacion}" title="{../@fecha}: {format-number(../@Total,$mask)} ({../@FormaPago})" target="_blank">
 				 <xsl:value-of select="."/>
 			</a>
 	 </xsl:template>
