@@ -433,7 +433,7 @@ tags will be replaced.-->
 									</tr>
 									<tr height="5" style="mso-height-source:userset;height:4.35pt">
 										 <td height="5" class="xl1517904" style="height:4.35pt"></td>
-										 <td colspan="14" class="xl7317904" dir="LTR" width="1300" style="width:976pt"> </td>
+										 <td colspan="15" class="xl7317904" dir="LTR" width="1300" style="width:976pt"> </td>
 										 <td class="xl1517904"></td>
 										 <td class="xl1517904"></td>
 									</tr>
@@ -474,12 +474,14 @@ tags will be replaced.-->
 										 <td class="xl6317904" dir="LTR" width="91" style="width:68pt">RESPONSABLE</td>
 										 <td class="xl6317904" dir="LTR" width="91" style="width:68pt">PROYECTO</td>
 										 <td class="xl6317904" dir="LTR" width="91" style="width:68pt">FACTURA</td>
+										 <td class="xl6317904" dir="LTR" width="91" style="width:68pt">TOTAL FACTURAS</td>
 										 <td class="xl1517904"></td>
 										 <td class="xl1517904"></td>
 									</tr>
 							 </thead>
 							 <tbody>
-									<xsl:for-each select="//contratos/row">
+								 <xsl:variable name="mask">$#,##0.##;-$#,##0.##</xsl:variable>
+								 <xsl:for-each select="//contratos/row">
 										 <tr height="38" style="height:28.5pt">
 												<td height="38" class="xl1517904" style="height:28.5pt"></td>
 												<td colspan="2" class="xl6417904" dir="LTR" width="93" style="width:70pt">
@@ -512,10 +514,14 @@ tags will be replaced.-->
 												<td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt">
 													 <xsl:apply-templates select="@proyecto"/>
 												</td>
+											 <xsl:variable name="facturas" select="//facturas/row[@cuenta=current()/@id]"/>
 												<td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt; white-space:nowrap;">
-													 <xsl:apply-templates mode="concat" select="//facturas/row[@cuenta=current()/@id]/@Folio">
+													 <xsl:apply-templates mode="concat" select="$facturas/@Folio">
 															<xsl:with-param name="separator"/>
 													 </xsl:apply-templates>
+												</td>
+												<td class="xl6417904" dir="LTR" width="91" style="border-top:none;width:68pt; white-space:nowrap;">
+													<xsl:value-of select="format-number(sum($facturas/@Total),$mask)"/>
 												</td>
 												<td class="xl1517904"></td>
 										 </tr>
@@ -527,14 +533,13 @@ tags will be replaced.-->
 												<td colspan="7" class="xl7017904" dir="LTR" width="993" style="border-left:none;&#10;  width:745pt">
 													 <xsl:value-of select="sum(//contratos/row/@meses_adeudo)"/>
 												</td>
-												<td class="xl7117904" dir="LTR" width="123" style="border-left:none;&#10;  width:93pt">
-													 <xsl:call-template name="format">
-															<xsl:with-param name="value">
-																 <xsl:value-of select="sum(//contratos/row/@adeudo_actual)"/>
-															</xsl:with-param>
-													 </xsl:call-template>
+												<td class="xl7117904" dir="LTR" width="123" style="border-left:none;&#10;  width:93pt;text-align:center">
+													 <xsl:value-of select="format-number(sum(//contratos/row/@adeudo_actual),$mask)"/>
 												</td>
 												<td colspan="4" class="xl7017904"></td>
+												<td class="xl7117904" dir="LTR" width="123" style="border-left:none;&#10;  width:93pt;text-align:center">
+													 <xsl:value-of select="format-number(sum(//facturas/row/@Total),$mask)"/>
+												</td>
 												<td class="xl1517904"></td>
 										 </tr>
 									</tfoot>
