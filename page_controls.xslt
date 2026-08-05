@@ -52,10 +52,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           -webkit-animation-timing-function: linear;
           animation-timing-function: linear
         }
-        
-        main > * {
-          margin-bottom: 50px;
-        }
 		
 		footer [role=group] {
 			max-width: 100%;
@@ -78,6 +74,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           }
         }]]>
 			</script>
+			<div is="selection-summary" summary="count" label="Conteo"></div>
+			<div is="selection-summary" summary="sum" label="Suma"></div>
+			<!--<div is="selection-summary" summary="avg" label="Promedio" format="$#,##0.0#"></div>-->
 			<xsl:apply-templates/>
 		</div>
 	</xsl:template>

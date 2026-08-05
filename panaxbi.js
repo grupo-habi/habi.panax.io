@@ -42,7 +42,7 @@ formatDate = function (date) {
     return new Date((date instanceof Date) && date || Date.parse(`${date}T00:00:00`.replace(/(\d{4})-?(\d{2})-?(\d{2})T/, '$1-$2-$3T')))
 }
 
-xo.listener.on(['append::main > [xo-source][xo-stylesheet], body > [xo-source][xo-stylesheet]'], function ({ target }) {
+xo.listener.on(['append::main > [xo-source][xo-stylesheet], body > [xo-source][xo-stylesheet]', 'append::main > [xo-source][xo-store], body > [xo-source][xo-store]'], function ({ target }) {
     const self = this;
     let mutually_inclusive_selector = `slot,script,dialog,[role=alertdialog],[role=alert],[role=dialog],[role=status],[role=progressbar],[role=complementary]`
     for (const node of [...target.children].filter(node =>
@@ -98,20 +98,6 @@ xover.listener.on('Response:failure?status=401', function ({ url }) {
     }
 })
 
-Object.defineProperty(xo.session, 'logout', {
-    value: async function () {
-        try {
-            let response = await xover.server.logout();
-            for (store in xo.stores) {
-                xo.stores[store].remove()
-            }
-            xover.session.status = 'unauthorized';
-        } catch (e) {
-            Promise.reject(e);
-        }
-    }, writable: true, configurable: true
-})
-
 xo.listener.on('beforeRender?!store.stylesheets.length::model[not(//processing-instruction())]', function ({ document, store }) {
     let tag = store.tag;
     store.addStylesheet({ href: tag.substring(1).split(/\?/, 1).shift() + '.xslt', target: "@#shell main" });
@@ -123,9 +109,9 @@ xo.listener.on(['transform'], ({ result }) => {
 })
 
 xo.listener.on('progress', function ({ percent }) {
-    if (percent >= 100) {
-        this.remove()
-    }
+  if (percent >= 100) {
+    xover.delay(175).then(() => this.remove());
+  }
 })
 
 xo.listener.on(`remove::[role=alert]`, function () {

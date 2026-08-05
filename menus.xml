@@ -1,6 +1,9 @@
 ﻿<?xml-stylesheet type="text/xsl" href="menus.xslt" target="@#shell @#menu"?>
 <menus>
 	<settings/>
+	<px-refresh/>
+	<px-to-excel/>
+	<px-printer/>
 	<!--<notifications>
 	</notifications>
 	<messages>

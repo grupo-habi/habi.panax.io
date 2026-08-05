@@ -7,11 +7,11 @@ xo.listener.on('xover-initialized', function ({ progress_renders }) {
 	}
 })
 
-xover.listener.on('xover-initialized', function () {
-	window.setInterval(function () {
-		xover.session.checkStatus();
-	}, 900000);
-})
+//xover.listener.on('xover-initialized', function () {
+//	window.setInterval(function () {
+//		xover.session.checkStatus();
+//	}, 900000);
+//})
 
 xo.listener.on('change::model/*/*/@state:checked[.="true"]', function ({ element, stylesheet, srcElement, value, old }) {
 	let id = element.getAttributeNode("id") || element.getAttributeNode("mes")
@@ -116,34 +116,9 @@ async function updateTunnel() {
 	}
 }
 
-Object.defineProperty(xover.session, 'login', {
-	value: async function (username, password, ...args) {
-		if ('login' in xover.server) {
-			try {
-				username = username instanceof HTMLElement ? username.value : username;
-				password = password instanceof HTMLElement ? password.value : password;
-				xover.session.user_login = username;
-				xover.session.status = 'authorizing';
-				let authorization = `Basic ${btoa(username + ':' + password)}`;
-				await xover.server.login(...args, new Headers({ authorization }), (return_value, request) => { xover.session[`${request.url.host}:id`] = return_value.id });
-				xover.session.status = 'authorized';
-				xover.session.id_token = authorization;
-				if (xover.site.seed === '#login') {
-					window.location = '#'
-				} else {
-					xover.stores.active.render();
-				}
-			} catch (e) {
-				xover.session.status = 'unauthorized';
-				return Promise.reject(e);
-			}
-		} else {
-			xover.session.status = 'authorized';
-			window.dispatchEvent(new xover.listener.Event('login', {}, this));
-			return false;
-		}
-	}, writable: true, configurable: true
-})
+xover.listener.on("encodeValue::input[type=password]", function ({ value }) {
+	return value;
+});
 
 function filterSelection() {
 	for (let selection of this.select(`//@state:selected`).filter(attr => attr.value)) {
@@ -168,7 +143,15 @@ xo.listener.on(`fetch::#reporte_interapas`, function ({ document }) {
 async function sync_url({ document, value }) {
 	let url = document.url;
 	if (!url) return;
-	for (let field of [...document.querySelectorAll(`form fieldset > [name]`)]) {
+	let fetch = false;
+	if (instanceOf.call(this, Attr)) {
+		let param_name = this.parentNode.nodeName;
+		if (url.searchParams.has(`@${param_name}`) && !value || value) {
+			url.searchParams.set(`@${param_name}`, value || null);
+			fetch = true;
+		}
+	}
+	for (let field of [...top.document.querySelectorAll(`form fieldset > [name]`)]) {
 		let field_name = field.scope.closest('*').localName;
 		if (!field.value || field.closest(`.mutually-exclusive`) && field.matches(`[type=hidden]`)) {
 			url.searchParams.delete(`@${field_name}`)
@@ -176,13 +159,7 @@ async function sync_url({ document, value }) {
 			url.searchParams.set(`@${field_name}`, field.value)
 		}
 	}
-	if (instanceOf.call(this, Attr)) {
-		let param_name = this.parentNode.nodeName;
-		if (url.searchParams.has(`@${param_name}`) && !value || value) {
-			url.searchParams.set(`@${param_name}`, value || null);
-			document.fetch()
-		}
-	}
+	if (fetch) document.source.fetch();
 }
 xover.listener.on([`change::*[@navbar:*]/@state:selected`], sync_url)
 
@@ -196,7 +173,14 @@ xo.listener.on('render', function ({ document }) {
 	}
 })
 
-xo.listener.on(['beforeFetch::?FROM=^Interapas.#server:request'], async function ({ request }) {
+xo.listener.on('progress', function ({ percent }) {
+	if (percent >= 100) {
+		xover.delay(175).then(() => this.remove());
+	}
+})
+
+xo.listener.on(['beforeFetch::?FROM=#server:request'], async function ({ request }) {
+	if (!request.tags.has(xo.site.seed)) return;
 	let trackers = request.trackers;
 	for (let tracker of trackers) {
 		tracker.remove()
@@ -204,6 +188,8 @@ xo.listener.on(['beforeFetch::?FROM=^Interapas.#server:request'], async function
 	trackers.clear();
 	trackers.add(document.body.appendChild(document.createElement("px-loader")));
 })
+
+
 async function new_revision() {
 	let document = await xover.sources["#reporte_interapas"].ready;
 	let archivo = document.single(`//archivo/@state:selected`);
@@ -220,3 +206,22 @@ async function new_revision() {
 	}
 }
 /*xo.listener.on(`change::revision/@state:selected[.="[new]"]`, new_revision)*/
+
+xover.listener.on('scrollIntoView::details', function (event) {
+	for (let other of this.parentNode.querySelectorAll(`${this.nodeName}`)) {
+		other.open = false
+	}
+	this.open = true
+})
+
+cfdi = {}
+cfdi.mostrarFactura = function () {
+	let scope = this.scope;
+	scope = scope.closest("*");
+	xo.sources[`${xo.session.server}/${scope.getAttribute("Ubicacion")}`].fetch().then(async (document) => {
+		document.stylesheets.add({ href: "cfdi.xslt", target: "body", role: "dialog" })
+		await document.render()
+		let dialog = top.document.querySelector("dialog");
+
+	})
+}

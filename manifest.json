@@ -1,6 +1,7 @@
 {
 	"server": {
 		"request": "${xover.session.server}/request.asp",
+		"session": "POST ${xover.session.server}/session.asp",
 		"login": "POST ${xover.session.server}/login.asp",
 		"logout": "${xover.session.server}/logout.asp",
 		"applyPermissions": {
@@ -11,7 +12,7 @@
 		}
 	},
 	"session": {
-		"gist": "https://gist.githubusercontent.com/uriel-online/7595dfb78e172580281d26c1b48a58c9/raw/habi.json"
+		"server": "http://interapas.habi.com.mx/server"
 	},
 	"sources": {
 		"^#([^?]+)(\\?.*)?": {
@@ -20,33 +21,59 @@
 			}
 		},
 		"#": "#shell",
-		"#shell": null,
-		"#login": null,
+		"#shell": "default",
+		"#login": "login.xml",
 		"#loading": null,
+		"/widgets/page_navbar.xslt": "/page_navbar.xslt",
+		"/widgets/sitemap.xslt": "/sitemap.xslt",
 		"#settings": "settings.xml",
-		"px-to-excel": "widgets/excel_button.xhtml",
-		"px-daterange": "widgets/daterange.xhtml",
-		"px-combobox": "widgets/combobox.xhtml",
-		"px-printer": "widgets/printer.xhtml",
-		"px-loader": "widgets/loader.xhtml",
-		"google-chart": "widgets/google-chart.xhtml",
+		"px-to-excel": "/widgets/excel_button.xhtml",
+		"px-refresh": "/widgets/refresh_button.xhtml",
+		"excel-selection": "/widgets/$&.xhtml",
+		"selection-summary": "/widgets/$&.xhtml",
+		"value-filter": "/widgets/$&.xhtml",
+		"^px-(.+)": "/widgets/$1.xhtml",
+		"google-chart": "/widgets/google-chart.xhtml",
 		"#menu": "menus.xml",
 		"#globalization": [ "assets/globalization/headerText.${xo.session.locale.split('-').shift()}.resx", "assets/globalization/headerText.resx" ],
-		"#sitemap": "sitemap.xml",
+		"#sitemap": {
+			"server:request": {
+				"FROM": "Platform.Menu"
+			}
+		},
 		"#reporte_interapas": {
 			"server:request": {
 				"FROM": "Interapas.reporte_interapas"
+			}
+		},
+		"#reporte_complementos_faltantes": {
+			"server:request": {
+				"FROM": "Compras.reporteComplementosFaltantes"
+			}
+		},
+		"#resumen_descarga_cfdi": {
+			"server:request": {
+				"FROM": "[DescargaMasiva].[reporteDescargaCFDI]"
 			}
 		}
 	},
 	"start": [
 		"loading.xslt",
-		"px-combobox",
-		"px-daterange",
-		"px-printer",
-		"px-to-excel",
 		"px-loader",
-		{ "updateTunnel": [] }
+		{
+			"updateTunnel": [],
+			"@settings": {
+				"resumable": true
+			}
+		},
+		{
+			"server:session": [],
+			"@settings": {
+				"resumable": true
+			}
+		},
+		"px-qrcode",
+		"#menu"
 	],
 	"settings": {
 		"^#.*": {
@@ -57,6 +84,13 @@
 			}
 		},
 		"#reporte_interapas": {
+			"target": "@#shell main",
+			"headers": {
+				"x-root-node": "model",
+				"x-row-node": "row"
+			}
+		},
+		"#reporte_complementos_faltantes": {
 			"target": "@#shell main",
 			"headers": {
 				"x-root-node": "model",
