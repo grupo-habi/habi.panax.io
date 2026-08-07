@@ -17,7 +17,7 @@
 	"sources": {
 		"^#([^?]+)(\\?.*)?": {
 			"server:request": {
-				"FROM": "PanaxBI.$1"
+				"FROM": "Platform.$1"
 			}
 		},
 		"#": "#shell",
@@ -36,16 +36,6 @@
 		"google-chart": "/widgets/google-chart.xhtml",
 		"#menu": "menus.xml",
 		"#globalization": [ "assets/globalization/headerText.${xo.session.locale.split('-').shift()}.resx", "assets/globalization/headerText.resx" ],
-		"#sitemap": {
-			"server:request": {
-				"FROM": "Platform.Menu"
-			}
-		},
-		"#reporte_interapas": {
-			"server:request": {
-				"FROM": "Interapas.reporte_interapas"
-			}
-		},
 		"#reporte_complementos_faltantes": {
 			"server:request": {
 				"FROM": "Compras.reporteComplementosFaltantes"
