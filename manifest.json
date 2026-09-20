@@ -88,6 +88,7 @@
 			}
 		},
 		"~.asp": {
+			"contract": true,
 			"headers": {
 				"authorization": "${xover.session.id_token}"
 			}

@@ -278,7 +278,7 @@ tags will be replaced.-->
 
 				 <div id="reporte_interapas" align="center" x:publishsource="Excel">
 
-						<table border="0" cellpadding="0" cellspacing="0" width="1332" style="border-collapse:&#10; collapse;">
+						<table excel-exportable="excel-exportable" border="0" cellpadding="0" cellspacing="0" width="1332" style="border-collapse:&#10; collapse;">
 							 <!--<colgroup>
             <col width="12" style="mso-width-source:userset;mso-width-alt:438;width:9pt" />
             <col width="15" style="mso-width-source:userset;mso-width-alt:548;width:11pt" />

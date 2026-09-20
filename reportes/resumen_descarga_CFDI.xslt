@@ -30,7 +30,7 @@
 	<xsl:template match="DescargaMasiva">
 		<body style="&body;" is="excel-selection">
 			<h1 style="&title;">Resumen de Descarga Masiva SAT CFDI:</h1>
-			<table cellpadding="0" cellspacing="2" style="width:100%; color:#000000; font-size:10px; font-family:Verdana, Arial, sans-serif;">
+			<table excel-exportable="false" cellpadding="0" cellspacing="2" style="width:100%; color:#000000; font-size:10px; font-family:Verdana, Arial, sans-serif;">
 				<tr>
 					<td style="width:180px;">Fecha del reporte:</td>
 					<th style="&header; text-align:left;">

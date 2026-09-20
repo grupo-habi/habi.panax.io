@@ -1,4 +1,4 @@
-//xover.disablePolyfill.toString = true
+//xo.disablePolyfill.toString = true
 var datediff = function (intervalType, first_date, last_date = new Date()) {
     // Parse the input dates
     if (!(first_date && last_date)) return undefined;
@@ -42,18 +42,18 @@ formatDate = function (date) {
     return new Date((date instanceof Date) && date || Date.parse(`${date}T00:00:00`.replace(/(\d{4})-?(\d{2})-?(\d{2})T/, '$1-$2-$3T')))
 }
 
-xo.listener.on(['append::main > [xo-source][xo-stylesheet], body > [xo-source][xo-stylesheet]', 'append::main > [xo-source][xo-store], body > [xo-source][xo-store]'], function ({ target }) {
-    const self = this;
-    let mutually_inclusive_selector = `slot,script,dialog,[role=alertdialog],[role=alert],[role=dialog],[role=status],[role=progressbar],[role=complementary]`
-    for (const node of [...target.children].filter(node =>
-        node !== this && node.nodeType === Node.ELEMENT_NODE
-        && node.matches(`[xo-source]`)
-        && !node.matches(mutually_inclusive_selector)
-        && !self.matches(mutually_inclusive_selector)
-    )) {
-        node.remove()
-    }
-})
+//xo.listener.on(['append::main > [xo-source][xo-stylesheet], body > [xo-source][xo-stylesheet]', 'append::main > [xo-source][xo-store], body > [xo-source][xo-store]'], function ({ target }) {
+//    const self = this;
+//    let mutually_inclusive_selector = `slot,script,dialog,[role=alertdialog],[role=alert],[role=dialog],[role=status],[role=progressbar],[role=complementary]`
+//    for (const node of [...target.children].filter(node =>
+//        node !== this && node.nodeType === Node.ELEMENT_NODE
+//        && node.matches(`[xo-source]`)
+//        && !node.matches(mutually_inclusive_selector)
+//        && !self.matches(mutually_inclusive_selector)
+//    )) {
+//        node.remove()
+//    }
+//})
 /*
 xo.listener.on(['append::html:*[.//@style[contains(.,"view-transition-name")]]'], function ({ target, element }) {
     debugger
@@ -83,7 +83,7 @@ xo.listener.on(`fetch::model[*[@xsi:type="dimension"]]`, function ({ document })
 //    trackers.clear();
 //})
 
-xo.listener.on(['beforeFetch::?FROM=^PanaxBI.#server:request'], async function ({ request }) {
+xo.listener.on(['beforeFetch::?FROM=^Platform.#server:request'], async function ({ request }) {
     let trackers = request.trackers;
     for (let tracker of trackers) {
         tracker.remove()
@@ -92,10 +92,10 @@ xo.listener.on(['beforeFetch::?FROM=^PanaxBI.#server:request'], async function (
     trackers.add(document.body.appendChild(document.createElement("px-loader")));
 })
 
-xover.listener.on('Response:failure?status=401', function ({ url }) {
-    if (['server.panax.io', location.host].includes(url.host)) {
-        xo.session.status = 'unauthorized'
-    }
+xo.listener.on('Response:failure?status=401', function ({ url }) {
+  if (['server.panax.io', location.host].includes(url.host)) {
+    xo.session.status = 'unauthorized'
+  }
 })
 
 xo.listener.on('beforeRender?!store.stylesheets.length::model[not(//processing-instruction())]', function ({ document, store }) {
@@ -110,7 +110,7 @@ xo.listener.on(['transform'], ({ result }) => {
 
 xo.listener.on('progress', function ({ percent }) {
   if (percent >= 100) {
-    xover.delay(175).then(() => this.remove());
+    xo.delay(175).then(() => this.remove());
   }
 })
 
@@ -137,7 +137,7 @@ function createToast({ header, body }) {
     return toast;
 }
 
-xover.listener.on('NetworkError', function ({ url }) {
+xo.listener.on('NetworkError', function ({ url }) {
     createToast({
         header: "Error de red"
         , body: `No se pudo acceder al servidor ${url.host}`
@@ -158,7 +158,7 @@ xo.listener.on(`versionChange`, function (onAccept) {
     event.stopImmediatePropagation()
 })
 
-xover.listener.on('unhandledrejection?reason*=Error loading script https://accounts.google.com/gsi/client', async (event) => {
+xo.listener.on('unhandledrejection?reason*=Error loading script https://accounts.google.com/gsi/client', async (event) => {
     event.preventDefault();
     throw (`#google_error`);
 })

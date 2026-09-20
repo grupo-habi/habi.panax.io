@@ -3,4 +3,8 @@
 		<!--<item id="2" title="$$ de ventas x tipo de pago" target="#ventas_tipo_pago"/>-->
 		<item id="3" title="Estatus de contratos" target="#reporte_interapas"/>
 	</item>
+	<item id="2" title="Facturas">
+		<item id="4" title="Complementos de pago faltantes" target="#reporte_complementos_faltantes"/>
+		<item id="5" title="Resumen descarga CFDI" target="#resumen_descarga_CFDI"/>
+	</item>
 </sitemap>
