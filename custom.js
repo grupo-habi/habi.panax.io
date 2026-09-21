@@ -214,6 +214,20 @@ xover.listener.on('scrollIntoView::details', function (event) {
 	this.open = true
 })
 
+function mostrarDetalleSolicitud(solicitudId) {
+	let detalle = document.getElementById(solicitudId);
+	if (!detalle) return false;
+
+	for (let otro of detalle.parentNode.querySelectorAll('details')) {
+		otro.open = false;
+	}
+
+	detalle.open = true;
+	detalle.querySelector('summary')?.focus({ preventScroll: true });
+	detalle.scrollIntoView({ block: 'nearest' });
+	return false;
+}
+
 cfdi = {}
 cfdi.mostrarFactura = function () {
 	let scope = this.scope;

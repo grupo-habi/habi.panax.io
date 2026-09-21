@@ -672,7 +672,7 @@
 	</xsl:template>
 
 	<xsl:template match="@SolicitudId">
-		<a href="#{.}">
+		<a href="#" data-solicitud-id="{.}" onclick="return mostrarDetalleSolicitud(this.dataset.solicitudId);">
 			<xsl:value-of select="."/>
 		</a>
 	</xsl:template>
