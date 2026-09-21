@@ -59,7 +59,8 @@
 		{
 			"server:session": [],
 			"@settings": {
-				"resumable": true
+				"resumable": true,
+				"authentication": "#login"
 			}
 		},
 		"px-qrcode",
@@ -89,6 +90,7 @@
 		},
 		"~.asp": {
 			"contract": true,
+			"authentication": "#login",
 			"headers": {
 				"authorization": "${xover.session.id_token}"
 			}
