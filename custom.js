@@ -1,4 +1,4 @@
-﻿xo.spaces["expanded"] = "http://panax.io/state/expanded";
+xo.spaces["expanded"] = "http://panax.io/state/expanded";
 xo.spaces["visible"] = "http://panax.io/state/visible";
 xo.spaces["hidden"] = "http://panax.io/state/hidden";
 xo.listener.on('xover-initialized', function ({ progress_renders }) {
@@ -140,31 +140,8 @@ xo.listener.on(`fetch::#reporte_interapas`, function ({ document }) {
 	document.select(`//@adeudo_actual[starts-with(.,"$")]`).forEach(attr => attr.value = attr.value.replace(/[\$,]/g, ''))
 })
 
-async function sync_url({ document, value }) {
-	let url = document.url;
-	if (!url) return;
-	let fetch = false;
-	if (instanceOf.call(this, Attr)) {
-		let param_name = this.parentNode.nodeName;
-		if (url.searchParams.has(`@${param_name}`) && !value || value) {
-			url.searchParams.set(`@${param_name}`, value || null);
-			fetch = true;
-		}
-	}
-	for (let field of [...top.document.querySelectorAll(`form fieldset > [name]`)]) {
-		let field_name = field.scope.closest('*').localName;
-		if (!field.value || field.closest(`.mutually-exclusive`) && field.matches(`[type=hidden]`)) {
-			url.searchParams.delete(`@${field_name}`)
-		} else {
-			url.searchParams.set(`@${field_name}`, field.value)
-		}
-	}
-	if (fetch) document.source.fetch();
-}
-xover.listener.on([`change::*[@navbar:*]/@state:selected`], sync_url)
-
-xover.listener.on(`change::contratos/@state:selected`, function () {
-	event.stopImmediatePropagation()
+xover.listener.on(`change::contratos/@state:selected`, function ({ event }) {
+	this.ownerDocument.render()
 })
 
 xo.listener.on('render', function ({ document }) {
@@ -239,3 +216,12 @@ cfdi.mostrarFactura = function () {
 
 	})
 }
+
+xover.listener.on('fetch::model[contratos and facturas]', function ({ document }) {
+    const stylesheets = [...document.stylesheets].filter(stylesheet =>
+        /(?:^|\/)(?:cambio_propietario|programacion_pagos|reporte_interapas)\.xslt(?:[?#].*)?$/.test(stylesheet.href));
+    if (!stylesheets.length) return;
+    stylesheets[0].href = 'reportes/reporte_interapas.xslt';
+    stylesheets.slice(1).forEach(stylesheet => stylesheet.remove());
+});
+

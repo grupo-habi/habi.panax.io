@@ -42,6 +42,26 @@
 	--progress-color: var(--bg-primary);
 }
 
+px-refresh.btn {
+	--bs-btn-hover-color: var(--bs-body-color);
+	--bs-btn-hover-bg: rgba(0, 0, 0, .08);
+	--bs-btn-active-color: var(--bs-body-color);
+	--bs-btn-active-bg: rgba(0, 0, 0, .12);
+}
+
+px-refresh.btn[data-dirty] {
+	--bs-btn-color: #fff;
+	--bs-btn-bg: var(--bs-success);
+	--bs-btn-border-color: var(--bs-success);
+	--bs-btn-hover-color: #fff;
+	--bs-btn-hover-bg: #157347;
+	--bs-btn-hover-border-color: #146c43;
+	--bs-btn-active-color: #fff;
+	--bs-btn-active-bg: #146c43;
+	--bs-btn-active-border-color: #13653f;
+	--bs-btn-focus-shadow-rgb: 60, 153, 110;
+}
+
 .form-signin {
 	margin: 3rem !important;
 }

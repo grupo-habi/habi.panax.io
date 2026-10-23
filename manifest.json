@@ -23,7 +23,7 @@
 		"#": "#shell",
 		"#shell": "default",
 		"#login": "login.xml",
-		"#loading": null,
+		"#loading": true,
 		"/widgets/page_navbar.xslt": "/page_navbar.xslt",
 		"/widgets/sitemap.xslt": "/sitemap.xslt",
 		"#settings": "settings.xml",
